@@ -1,4 +1,4 @@
-package com.mflyyou.springboot2_7.demo;
+package com.mflyyou.springboot.demo;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

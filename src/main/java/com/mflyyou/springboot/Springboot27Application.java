@@ -1,4 +1,4 @@
-package com.mflyyou.springboot2_7;
+package com.mflyyou.springboot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
