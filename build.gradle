@@ -1,32 +1,27 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '2.7.18'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' apply false
+    id 'io.spring.dependency-management' apply false
 }
 
-group = 'com.mflyyou'
+
+allprojects {
+    apply plugin: 'java'
+    tasks.named('test') {
+        useJUnitPlatform()
+    }
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(8)
+        }
+    }
+    group = "${global_group}"
+}
 version = '0.0.1-SNAPSHOT'
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
+configurations.all {
+    resolutionStrategy {
+        force 'org.mapstruct:mapstruct:1.5.5.Final'
+        force 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+        force 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     }
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

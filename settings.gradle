@@ -5,11 +5,16 @@ pluginManagement {
             url = 'https://maven.aliyun.com/repository/gradle-plugin'
         }
     }
+    plugins {
+        id 'org.springframework.boot' version "${spring_boot_version}"
+        id 'io.spring.dependency-management' version "${dependency_management_version}"
+    }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
+        mavenLocal()
         maven {
             url 'https://maven.aliyun.com/repository/public/'
         }
@@ -18,3 +23,5 @@ dependencyResolutionManagement {
 
 
 rootProject.name = 'fly-springboot2_7'
+include 'demo'
+
