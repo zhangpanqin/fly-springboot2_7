@@ -12,10 +12,15 @@ testSets {
 }
 
 dependencies {
+    implementation(platform(libs.spring.cloud.alibaba.dependencies))
+    implementation(platform(libs.spring.cloud.dependencies))
     implementation libs.mapstruct.core
     implementation libs.openapi
     implementation libs.lombok.mapstruct.binding
     annotationProcessor libs.mapstruct.processor
+    //    spring cloud alibaba
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
     // springboot 控制的依赖放下面
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
