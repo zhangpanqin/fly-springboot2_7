@@ -7,4 +7,4 @@ spring:
         group: DEFAULT_GROUP
         file-extension: yml
         prefix: application
-        refresh-enabled: false
+        refresh-enabled: true
