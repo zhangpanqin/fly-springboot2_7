@@ -2,6 +2,7 @@ package com.mflyyou.springboot.user;
 
 import com.mflyyou.springboot.user.api.UserApi;
 import com.mflyyou.springboot.user.api.request.CreateUserRequest;
+import com.mflyyou.springboot.user.api.response.ConfigResponse;
 import com.mflyyou.springboot.user.api.response.CreateUserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,10 +28,11 @@ public class UserController implements UserApi {
     }
 
     @GetMapping("/config")
-    public Map<String, Object> getConfig() {
-        Map<String, Object> config = new HashMap<>();
-        config.put("name", configrutation.getName());
-        config.put("age", configrutation.getAge());
-        return config;
+    public ConfigResponse getConfig() {
+        System.out.println("11");
+        return ConfigResponse.builder()
+                .name(configrutation.getName())
+                .age(configrutation.getAge())
+                .build();
     }
 }

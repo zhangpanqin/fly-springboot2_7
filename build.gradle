@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'pmd'
     id 'org.springframework.boot' apply false
     id 'io.spring.dependency-management' apply false
 }
@@ -17,6 +18,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'pmd'
 
     tasks.withType(Test).tap {
         configureEach {
@@ -24,11 +26,22 @@ subprojects {
         }
     }
 
-    compileJava {
-        options.compilerArgs.add '-AaddGeneratedAnnotation=true'
-    }
-
     configurations {
         compileOnly.extendsFrom(annotationProcessor)
+    }
+
+    pmd {
+        toolVersion = '6.0.0'
+        rulesMinimumPriority = 5
+        ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
+        sourceSets = [project.sourceSets.main]
+    }
+
+    dependencies {
+        pmd 'com.alibaba.p3c:p3c-pmd:2.1.1'
+    }
+
+    tasks.named('test') {
+        mustRunAfter(tasks.pmdMain)
     }
 }

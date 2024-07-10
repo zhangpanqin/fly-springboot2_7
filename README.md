@@ -11,3 +11,6 @@
 spring boot 2.7
 spring cloud alibaba 2021.0.5.0
 spring-cloud 2021.0.5
+
+### 静态分析
+- 集成了 pmd 和 alibaba p3c
