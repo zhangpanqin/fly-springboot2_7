@@ -48,13 +48,14 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = '9.3'
+        toolVersion = "9.3"
         config = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml')
         sourceSets = [project.sourceSets.main]
     }
 
     tasks.withType(Checkstyle).tap {
         configureEach {
+            ignoreFailures = false
             reports {
                 xml.required = true
                 html.required = true
