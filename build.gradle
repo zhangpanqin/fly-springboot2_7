@@ -1,7 +1,10 @@
+import com.github.spotbugs.snom.SpotBugsTask
+
 plugins {
     id 'java'
     id 'pmd'
     id 'checkstyle'
+    id 'com.github.spotbugs-base'
     id 'org.springframework.boot' apply false
     id 'io.spring.dependency-management' apply false
 }
@@ -21,6 +24,15 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'pmd'
     apply plugin: 'checkstyle'
+    apply plugin: "com.github.spotbugs-base"
+
+    dependencies {
+        pmd libs.alibaba.p3c
+    }
+
+    configurations {
+        compileOnly.extendsFrom(annotationProcessor)
+    }
 
     tasks.withType(Test).tap {
         configureEach {
@@ -28,23 +40,12 @@ subprojects {
         }
     }
 
-    configurations {
-        compileOnly.extendsFrom(annotationProcessor)
-    }
-
     pmd {
         toolVersion = '6.0.0'
+        ignoreFailures = false
         rulesMinimumPriority = 5
         ruleSetConfig = rootProject.resources.text.fromFile('config/pmd/pmd.xml')
         sourceSets = [project.sourceSets.main]
-    }
-
-    dependencies {
-        pmd 'com.alibaba.p3c:p3c-pmd:2.1.1'
-    }
-
-    tasks.named('test') {
-        mustRunAfter(tasks.pmdMain)
     }
 
     checkstyle {
@@ -61,5 +62,40 @@ subprojects {
                 html.required = true
             }
         }
+    }
+
+    spotbugs {
+        toolVersion = '4.8.2'
+        ignoreFailures = false
+        showStackTraces = true
+        showProgress = true
+        effort = 'default'
+        reportLevel = 'default'
+        excludeFilter = file("${rootDir}/config/spotbugs/exclude.xml")
+    }
+
+    tasks.register('spotbugsMain', SpotBugsTask) {
+        dependsOn 'classes'
+        classDirs = sourceSets.main.output
+        sourceDirs = sourceSets.main.allSource.sourceDirectories
+        auxClassPaths = sourceSets.main.compileClasspath
+        reports {
+            html {
+                required = true
+            }
+            xml {
+                required = true
+            }
+        }
+    }
+
+    tasks.named('check') {
+        dependsOn 'spotbugsMain'
+    }
+
+    tasks.named('test') {
+        mustRunAfter(tasks.pmdMain)
+        mustRunAfter(tasks.spotbugsMain)
+        mustRunAfter(tasks.checkstyleMain)
     }
 }

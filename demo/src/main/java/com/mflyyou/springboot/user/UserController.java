@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController implements UserApi {
-    private final ZpqConfigrutation configrutation;
+    private final ZpqConfigrutation zpqConfigrutation;
 
     @Override
     @PostMapping("")
@@ -38,6 +38,6 @@ public class UserController implements UserApi {
     public ConfigResponse getConfig() {
         System.out.println("11111111111111111111111111111111111111111111" +
                 "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
-        return ConfigResponse.builder().name(configrutation.getName()).age(configrutation.getAge()).build();
+        return ConfigResponse.builder().name(zpqConfigrutation.getName()).age(zpqConfigrutation.getAge()).build();
     }
 }
