@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'pmd'
+    id 'checkstyle'
     id 'org.springframework.boot' apply false
     id 'io.spring.dependency-management' apply false
 }
@@ -19,6 +20,7 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'pmd'
+    apply plugin: 'checkstyle'
 
     tasks.withType(Test).tap {
         configureEach {
@@ -43,5 +45,20 @@ subprojects {
 
     tasks.named('test') {
         mustRunAfter(tasks.pmdMain)
+    }
+
+    checkstyle {
+        toolVersion = '9.3'
+        config = rootProject.resources.text.fromFile('config/checkstyle/checkstyle.xml')
+        sourceSets = [project.sourceSets.main]
+    }
+
+    tasks.withType(Checkstyle).tap {
+        configureEach {
+            reports {
+                xml.required = true
+                html.required = true
+            }
+        }
     }
 }

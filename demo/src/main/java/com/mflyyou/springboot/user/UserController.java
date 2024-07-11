@@ -29,7 +29,7 @@ public class UserController implements UserApi {
 
     @GetMapping("/config")
     public ConfigResponse getConfig() {
-        System.out.println("11");
+        System.out.println("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
         return ConfigResponse.builder()
                 .name(configrutation.getName())
                 .age(configrutation.getAge())
